@@ -3,6 +3,7 @@ package com.product.api.controller;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.product.api.entity.Category;
@@ -16,7 +17,7 @@ public class CtrlProduct {
     SvcCategory svc;
 
     @GetMapping
-    public List<Category> getCategories() {
+    public ResponseEntity<List<Category>> getCategories() {
         return svc.getCategories();
     }
 }
