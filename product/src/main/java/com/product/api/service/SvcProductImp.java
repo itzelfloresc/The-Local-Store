@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class SvcProductImp implements SvcProduct{
 			if (product == null) {
 				throw new ApiException(HttpStatus.NOT_FOUND,"El id del producto no existe");
 			}
-			String image = readProductImageFile(id);
+			List<String> image = readProductImageFile(id);
 			product.setImage(image);
 			
 			return new ResponseEntity<>(product, HttpStatus.OK);
@@ -140,23 +141,24 @@ public class SvcProductImp implements SvcProduct{
 		}
 	}
 
-	private String readProductImageFile(Integer id) {
+	private List<String> readProductImageFile(Integer id) {
 		try{
-			ProductImage productImage = repoProductImage.findByProductId(id);
-			if (productImage == null)
-				return "";
-			
-			String imageUrl = productImage.getImage();
-			if (imageUrl.startsWith("/")) {
-				imageUrl = imageUrl.substring(1);
-			}
-			Path imagePath = Paths.get(uploadDir, imageUrl);
+			List<ProductImage> productImages = repoProductImage.findAllImagesByProductId(id);
+			List<String> imageList = new ArrayList<>();
 
-			if (!Files.exists(imagePath))
-	   	    	return "";
+        for (ProductImage productImage : productImages) {
+            String imageUrl = productImage.getImage();
+            if (imageUrl.startsWith("/")) {
+                imageUrl = imageUrl.substring(1);
+            }
+            Path imagePath = Paths.get(uploadDir, imageUrl);
 
-			byte[] imageBytes = Files.readAllBytes(imagePath);
-		    return Base64.getEncoder().encodeToString(imageBytes);
+            if (Files.exists(imagePath)) {
+                byte[] imageBytes = Files.readAllBytes(imagePath);
+                imageList.add(Base64.getEncoder().encodeToString(imageBytes));
+            }
+        }
+        return imageList;
 		}catch (DataAccessException e){
 			throw new DBAccessException(e);
 		}catch (IOException ioe) {

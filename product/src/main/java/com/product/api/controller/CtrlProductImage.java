@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.product.api.commons.dto.ApiResponse;
-import com.product.api.dto.DtoCategoryIn;
 import com.product.api.dto.in.DtoProductImageIn;
 import com.product.api.service.SvcProductImage;
 import com.product.exception.ApiException;
