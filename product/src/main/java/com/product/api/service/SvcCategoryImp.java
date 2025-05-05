@@ -91,7 +91,7 @@ public class SvcCategoryImp implements SvcCategory{
 			repo.createCategory(in.getCategory(), in.getTag());
 			return new ResponseEntity<>(new ApiResponse("La categoría ha sido registrada"), HttpStatus.CREATED);
 		}catch (DataAccessException e) {
-			if (e.getLocalizedMessage().contains("ux_region"))
+			if (e.getLocalizedMessage().contains("ux_category"))
 				throw new ApiException(HttpStatus.CONFLICT, "El nombre de la categoria ya está registrado");
 			if (e.getLocalizedMessage().contains("ux_tag"))
 				throw new ApiException(HttpStatus.CONFLICT, "El tag de la región ya está registrado");
