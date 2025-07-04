@@ -6,7 +6,7 @@ package com.product.api.commons.dto;
  * en las operaciones de la API, como creación, actualización, etc.
  */
 public class ApiResponse {
-
+//just trying something
     private String message;
 
     /**
