@@ -1,19 +1,60 @@
 package com.product.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Clase que representa una entidad de categoría en la base de datos.
+ * Esta clase está mapeada a la tabla "category" en la base de datos y se utiliza
+ * para almacenar y recuperar información sobre las categorías de productos.
+ * 
+ * La clase incluye anotaciones de JPA para mapear los campos de la tabla a los atributos
+ * de la clase
+ */
 @Entity
 @Table(name="category")
 public class Category {
 
+    /**
+     * Identificador único de la categoría. Este campo es generado automáticamente
+     * por la base de datos utilizando una estrategia de identidad.
+     */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("category_id")
+    @Column(name = "category_id")
     Integer category_id;
+
+    /**
+     * Nombre de la categoría. Este campo es único y no puede ser nulo.
+     */
+    @JsonProperty("category")
+    @Column(name = "category")
     String category;
+
+    /**
+     * Tag asociada a la categoría. Este campo es único y no puede ser nulo.
+     */
+    @JsonProperty("tag")
+    @Column(name = "tag")
     String tag;
+
+    /**
+     * Estado de la categoría. Este campo indica si la categoría está habilitada (1) o deshabilitada (0).
+     */
+    @JsonProperty("status")
+    @Column(name = "status")
     Integer status;
 
+    /**
+     * Constructor por defecto. Requerido por JPA.
+     */
     public Category(){}
 
     /**

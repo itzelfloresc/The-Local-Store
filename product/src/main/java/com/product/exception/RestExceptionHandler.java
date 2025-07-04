@@ -10,9 +10,21 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * Manejador global de excepciones que captura excepciones específicas y devuelve respuestas HTTP personalizadas.
+ * Esta clase extiende {@link ResponseEntityExceptionHandler} para manejar excepciones en controladores
+ * y proporcionar respuestas consistentes en toda la API.
+ */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    /**
+     * Maneja excepciones de tipo {@link ApiException}.
+     * 
+     * @param exception La excepción de tipo {@link ApiException} que se capturó.
+     * @param request La solicitud web que causó la excepción.
+     * @return Una respuesta HTTP personalizada con detalles del error.
+     */
     @ExceptionHandler(ApiException.class)
     protected ResponseEntity<ExceptionResponse> handleApiException(ApiException exception, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse();
@@ -24,6 +36,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, response.getError());
     }
 
+    /**
+     * Maneja excepciones de tipo {@link DBAccessException}.
+     * 
+     * @param exception La excepción de tipo {@link DBAccessException} que se capturó.
+     * @param request La solicitud web que causó la excepción.
+     * @return Una respuesta HTTP personalizada con detalles del error.
+     */
     @ExceptionHandler(DBAccessException.class)
     protected ResponseEntity<ExceptionResponse> DBAccessException(DBAccessException exception, WebRequest request) {
 
